@@ -1,0 +1,26 @@
+{
+  "name": "obj2-vendedores",
+  "version": "1.0.0",
+  "description": "obj2-los-socios",
+  "main": "index.js",
+  "directories": {
+    "test": "tests"
+  },
+  "dependencies": {},
+  "devDependencies": {
+    "mocha": "^9.0.0"
+  },
+  "scripts": {
+    "test": "mocha tests"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/elicasama/obj2-vendedores.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/elicasama/obj2-vendedores/issues"
+  },
+  "homepage": "https://github.com/elicasama/obj2-vendedores#readme"
+}

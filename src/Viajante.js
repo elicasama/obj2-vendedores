@@ -6,7 +6,7 @@ module.exports = class Viajante extends Vendedor {
         this.provinciasHabilitadas = provinciasHabilitadas;
     }
     
-    puedeTrabajarEn(provinciasHabilitadas, this) {
+    puedeTrabajarEn(provinciasHabilitadas, ciudad) {
         return provinciasHabilitadas.conteins(ciudad.provincia);
       }
 }
