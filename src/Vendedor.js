@@ -36,10 +36,10 @@ module.exports = class Vendedor {
   }
 
   puntajeCertificaciones() {
-    return this.certificaciones.reduce((suma, certificacion) => {
-      const totalPuntaje = suma + certificacion.puntaje;
-      return totalPuntaje;
-    }, 0);
+    return _.sumBy(
+      this.certificaciones,
+      (certificacion) => certificacion.puntaje
+    );
   }
 
   esUnVendedorGenerico() {
