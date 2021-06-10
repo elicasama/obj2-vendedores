@@ -29,10 +29,10 @@ module.exports = class Vendedor {
   }
 
   otrasCertificaciones() {
-    const otrosCertificados = this.certificaciones.filter(
-      (certificacion) => !certificacion.esDeProducto
-    );
-    return otrosCertificados.length;
+    return _.countBy(
+      this.certificaciones,
+      (certificacion) => certificacion.esDeProducto
+    ).false;
   }
 
   puntajeCertificaciones() {
