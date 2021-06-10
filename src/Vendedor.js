@@ -5,20 +5,8 @@ module.exports = class Vendedor {
     this.certificaciones = [];
   }
 
-  esVersatil = () => {
-    return (
-      this.certificaciones.length >= 3 &&
-      this.certificacionesDeProducto() >= 1 &&
-      this.otrasCertificaciones() >= 1
-    );
-  };
-
   agregarCertificacion(certificación) {
     this.certificaciones.push(certificación);
-  }
-
-  esFirme() {
-    return this.puntajeCertificaciones() >= 30;
   }
 
   certificacionesDeProducto() {
@@ -42,7 +30,19 @@ module.exports = class Vendedor {
     );
   }
 
-  esUnVendedorGenerico() {
+  esVersatil = () => {
+    return (
+      this.certificaciones.length >= 3 &&
+      this.certificacionesDeProducto() >= 1 &&
+      this.otrasCertificaciones() >= 1
+    );
+  };
+
+  esGenerico() {
     return this.otrasCertificaciones() >= 1;
+  }
+
+  esFirme() {
+    return this.puntajeCertificaciones() >= 30;
   }
 };

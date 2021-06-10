@@ -32,7 +32,7 @@ module.exports = class CentroDeDistribucion {
 
   vendedoresGenericos() {
     return this.vendedores.filter((vendedor) => {
-      return vendedor.esUnVendedorGenerico();
+      return vendedor.esGenerico();
     });
   }
 
