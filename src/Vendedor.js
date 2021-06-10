@@ -1,3 +1,5 @@
+var _ = require("lodash");
+
 module.exports = class Vendedor {
   constructor() {
     this.certificaciones = [];
@@ -20,10 +22,10 @@ module.exports = class Vendedor {
   }
 
   certificacionesDeProducto() {
-    const certificadosDeProducto = this.certificaciones.filter(
+    return _.countBy(
+      this.certificaciones,
       (certificacion) => certificacion.esDeProducto
-    );
-    return certificadosDeProducto.length;
+    ).true;
   }
 
   otrasCertificaciones() {
