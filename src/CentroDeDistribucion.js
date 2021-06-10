@@ -15,13 +15,12 @@ module.exports = class CentroDeDistribucion {
   }
 
   vendedorEstrella() {
-    const mejorvendedor = this.vendedores.reduce(function (anterior, vendedor) {
+    return this.vendedores.reduce(function (anterior, vendedor) {
       return anterior.puntajeCertificaciones() >
         vendedor.puntajeCertificaciones()
         ? anterior
         : vendedor;
     });
-    return mejorvendedor;
   }
 
   esRobusto() {
