@@ -5,9 +5,11 @@ module.exports = class VendedorFijo extends Vendedor {
     super();
     this.ciudadOrigen = ciudadOrigen;
   }
+
   puedeTrabajarEn(ciudad) {
     return this.ciudadOrigen === ciudad;
   }
+
   esInfluyente() {
     return false;
   }

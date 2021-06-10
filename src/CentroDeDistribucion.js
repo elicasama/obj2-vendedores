@@ -13,14 +13,17 @@ module.exports = class CentroDeDistribucion {
       this.vendedores.push(nuevoVendedor);
     }
   }
+
   vendedorEstrella() {
     const mejorvendedor = this.vendedores.reduce(function (anterior, vendedor) {
-      return anterior.puntajeCertificaciones() > vendedor.puntajeCertificaciones()
+      return anterior.puntajeCertificaciones() >
+        vendedor.puntajeCertificaciones()
         ? anterior
         : vendedor;
     });
     return mejorvendedor;
   }
+
   esRobusto() {
     return (
       this.vendedores.filter((vendedor) => {
@@ -28,11 +31,6 @@ module.exports = class CentroDeDistribucion {
       }).length >= 3
     );
   }
-
-  // Consultar:
-  // La colección de vendedores genéricos registrados.
-  // Un vendedor se considera genérico si tiene al menos
-  // una certificación que no es de productos.
 
   vendedoresGenericos() {
     return this.vendedores.filter((vendedor) => {

@@ -1,5 +1,5 @@
 module.exports = class Provincia {
-    constructor(poblacion){
-        this.poblacion = poblacion;
-    }
-}
+  constructor(poblacion) {
+    this.poblacion = poblacion;
+  }
+};

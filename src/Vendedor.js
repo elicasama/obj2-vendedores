@@ -43,6 +43,4 @@ module.exports = class Vendedor {
   esUnVendedorGenerico() {
     return this.otrasCertificaciones() >= 1;
   }
-
-
 };
