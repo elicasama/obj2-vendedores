@@ -6,6 +6,7 @@ const Vendedor = require("../src/Vendedor");
 const VendedorFijo = require("../src/VendedorFijo");
 const Viajante = require("../src/Viajante");
 const ComercioCorresponsal = require("../src/ComercioCorresponsal");
+const CentroDeDistribucion = require("../src/CentroDeDistribucion");
 
 describe("Pruebas", () => {
   describe(" Verificando a los vendedores según la ciudad en la que pueden trabajar", () => {
@@ -180,39 +181,138 @@ describe("Pruebas", () => {
     });
     describe(" Verificando si un Comercio Corresponsal es influyente", () => {
       describe("Un Comercio Corresponsal es Influyente si: Tiene surcursales en 5 Cuidades o 3 provincias con sucursales", () => {
-      it("Un Comercio Corresponsal es Influyente si: Tiene surcursales en 5 Cuidades", () => {
-        const buenosAires = new Provincia(3200);
-        const neuquen = new Provincia(2000);
-        const capitalFederal = new Ciudad(buenosAires);
-        const bariloche = new Ciudad(neuquen);
-        const laPlata = new Ciudad(buenosAires);
-        const berazategui = new Ciudad(buenosAires);
-        const ciudades = [bariloche, laPlata, bariloche, berazategui, neuquen, capitalFederal];
-        const comercioCorresponsal = new ComercioCorresponsal(ciudades);
-        assert.equal(true, comercioCorresponsal.esInfluyente());
-      });
-      it("Un Comercio Corresponsal es Influyente si: está en tres provincias (aunque no tenga 5 ciudades)", () => {
-        const buenosAires = new Provincia(3200);
-        const neuquen = new Provincia(2000);
-        const santaFe = new Provincia(3600);
-        const capitalFederal = new Ciudad(buenosAires);
-        const sanLorenzo = new Ciudad(santaFe);
-        const laPlata = new Ciudad(buenosAires);
-        const ciudades = [sanLorenzo, laPlata, neuquen, capitalFederal];
-        const comercioCorresponsal = new ComercioCorresponsal(ciudades);
-        assert.equal(true, comercioCorresponsal.esInfluyente());
-      });
-      it("Un Comercio Corresponsal NO es Influyente si: No está en 5 ciudades ni en 3 provincias", () => {
-        const buenosAires = new Provincia(3200);
-        const neuquen = new Provincia(2000);
-        const capitalFederal = new Ciudad(buenosAires);
-        const berazategui = new Ciudad(buenosAires);
-        const laPlata = new Ciudad(buenosAires);
-        const ciudades = [berazategui, laPlata, neuquen, capitalFederal];
-        const comercioCorresponsal = new ComercioCorresponsal(ciudades);
-        assert.equal(false, comercioCorresponsal.esInfluyente());
+        it("Un Comercio Corresponsal es Influyente si: Tiene surcursales en 5 Cuidades", () => {
+          const buenosAires = new Provincia(3200);
+          const neuquen = new Provincia(2000);
+          const capitalFederal = new Ciudad(buenosAires);
+          const bariloche = new Ciudad(neuquen);
+          const laPlata = new Ciudad(buenosAires);
+          const berazategui = new Ciudad(buenosAires);
+          const ciudades = [
+            bariloche,
+            laPlata,
+            bariloche,
+            berazategui,
+            neuquen,
+            capitalFederal,
+          ];
+          const comercioCorresponsal = new ComercioCorresponsal(ciudades);
+          assert.equal(true, comercioCorresponsal.esInfluyente());
+        });
+        it("Un Comercio Corresponsal es Influyente si: está en tres provincias (aunque no tenga 5 ciudades)", () => {
+          const buenosAires = new Provincia(3200);
+          const neuquen = new Provincia(2000);
+          const santaFe = new Provincia(3600);
+          const capitalFederal = new Ciudad(buenosAires);
+          const sanLorenzo = new Ciudad(santaFe);
+          const laPlata = new Ciudad(buenosAires);
+          const ciudades = [sanLorenzo, laPlata, neuquen, capitalFederal];
+          const comercioCorresponsal = new ComercioCorresponsal(ciudades);
+          assert.equal(true, comercioCorresponsal.esInfluyente());
+        });
+        it("Un Comercio Corresponsal NO es Influyente si: No está en 5 ciudades ni en 3 provincias", () => {
+          const buenosAires = new Provincia(3200);
+          const neuquen = new Provincia(2000);
+          const capitalFederal = new Ciudad(buenosAires);
+          const berazategui = new Ciudad(buenosAires);
+          const laPlata = new Ciudad(buenosAires);
+          const ciudades = [berazategui, laPlata, neuquen, capitalFederal];
+          const comercioCorresponsal = new ComercioCorresponsal(ciudades);
+          assert.equal(false, comercioCorresponsal.esInfluyente());
+        });
       });
     });
   });
+  describe("Realizando consultas", () => {
+    describe("En el Centro de distribución", () => {
+      it("El Se agrega un nuevo vendedor al centro de distribución", () => {
+        const buenosAires = new Provincia(3200);
+        const capitalFederal = new Ciudad(buenosAires);
+        const centroDeDistribucion = new CentroDeDistribucion(
+          capitalFederal,
+          []
+        );
+        const vendedor1 = new Vendedor();
+        const certificacionP1 = new Certificacion(true, 1000);
+        vendedor1.agregarCertificacion(certificacionP1);
+
+        centroDeDistribucion.agregarVendedor(vendedor1);
+
+        // assert.equal("El vendedor ya existe!", centroDeDistribucion.agregarVendedor(vendedor1));
+        assert.equal(1, centroDeDistribucion.vendedores.length);
+      });
+      it("El intenta agregar un vendedor que ya existe --> Tiene que dar un error", () => {
+        const buenosAires = new Provincia(3200);
+        const capitalFederal = new Ciudad(buenosAires);
+        const centroDeDistribucion = new CentroDeDistribucion(
+          capitalFederal,
+          []
+        );
+        const vendedor1 = new Vendedor();
+        const certificacionP1 = new Certificacion(true, 1000);
+        vendedor1.agregarCertificacion(certificacionP1);
+
+        centroDeDistribucion.agregarVendedor(vendedor1);
+
+        assert.equal(
+          "El vendedor ya existe!",
+          centroDeDistribucion.agregarVendedor(vendedor1)
+        );
+      });
+
+      it("El vendedor estrella es el que tiene mayor puntaje en certificaciones", () => {
+        const vendedor1 = new Vendedor();
+        const vendedor2 = new Vendedor();
+        const vendedor3 = new Vendedor();
+
+        const certificacionP1 = new Certificacion(true, 1000);
+        const certificacionP2 = new Certificacion(true, 50);
+        const certificacionP3 = new Certificacion(true, 5);
+        const certificacionNP1 = new Certificacion(false, 120);
+        const certificacionNP2 = new Certificacion(false, 220);
+        const certificacionNP3 = new Certificacion(false, 220);
+
+        vendedor1.agregarCertificacion(certificacionP1);
+        vendedor1.agregarCertificacion(certificacionP2);
+        vendedor1.agregarCertificacion(certificacionP3);
+        vendedor1.agregarCertificacion(certificacionNP3);
+
+        vendedor2.agregarCertificacion(certificacionP2);
+        vendedor2.agregarCertificacion(certificacionP3);
+        vendedor2.agregarCertificacion(certificacionNP1);
+        vendedor2.agregarCertificacion(certificacionNP2);
+        vendedor2.agregarCertificacion(certificacionNP3);
+
+        vendedor3.agregarCertificacion(certificacionP1);
+        vendedor3.agregarCertificacion(certificacionP2);
+
+        const buenosAires = new Provincia(3200);
+        const capitalFederal = new Ciudad(buenosAires);
+        const centroDeDistribucion = new CentroDeDistribucion(
+          capitalFederal,
+          []
+        );
+
+        centroDeDistribucion.agregarVendedor(vendedor1);
+        centroDeDistribucion.agregarVendedor(vendedor2);
+        centroDeDistribucion.agregarVendedor(vendedor3);
+
+        console.log(
+          "El vendedor1 tiene un puntaje de: " +
+            vendedor1.puntajeCertifiaciones()
+        );
+        console.log(
+          "El vendedor2 tiene un puntaje de: " +
+            vendedor2.puntajeCertifiaciones()
+        );
+        console.log(
+          "El vendedor3 tiene un puntaje de: " +
+            vendedor3.puntajeCertifiaciones()
+        );
+        console.log(centroDeDistribucion.vendedorEstrella());
+
+        assert.equal(vendedor1, centroDeDistribucion.vendedorEstrella());
+      });
+    });
   });
 });
