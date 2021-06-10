@@ -297,21 +297,89 @@ describe("Pruebas", () => {
         centroDeDistribucion.agregarVendedor(vendedor2);
         centroDeDistribucion.agregarVendedor(vendedor3);
 
-        console.log(
-          "El vendedor1 tiene un puntaje de: " +
-            vendedor1.puntajeCertifiaciones()
-        );
-        console.log(
-          "El vendedor2 tiene un puntaje de: " +
-            vendedor2.puntajeCertifiaciones()
-        );
-        console.log(
-          "El vendedor3 tiene un puntaje de: " +
-            vendedor3.puntajeCertifiaciones()
-        );
-        console.log(centroDeDistribucion.vendedorEstrella());
-
         assert.equal(vendedor1, centroDeDistribucion.vendedorEstrella());
+      });
+      it("El Centro de distribución es robusto si 3 o más de sus venderores son firmes", () => {
+        const vendedor1 = new Vendedor();
+        const vendedor2 = new Vendedor();
+        const vendedor3 = new Vendedor();
+        const vendedor4 = new Vendedor();
+
+        const certificacionP1 = new Certificacion(true, 1000);
+        const certificacionP2 = new Certificacion(true, 50);
+        const certificacionP3 = new Certificacion(true, 5);
+        const certificacionNP1 = new Certificacion(false, 120);
+        const certificacionNP2 = new Certificacion(false, 220);
+        const certificacionNP3 = new Certificacion(false, 220);
+
+        vendedor1.agregarCertificacion(certificacionP1);
+        vendedor1.agregarCertificacion(certificacionP2);
+        vendedor1.agregarCertificacion(certificacionP3);
+        vendedor1.agregarCertificacion(certificacionNP3);
+
+        vendedor2.agregarCertificacion(certificacionP2);
+        vendedor2.agregarCertificacion(certificacionP3);
+        vendedor2.agregarCertificacion(certificacionNP1);
+        vendedor2.agregarCertificacion(certificacionNP2);
+        vendedor2.agregarCertificacion(certificacionNP3);
+
+        vendedor3.agregarCertificacion(certificacionP1);
+        vendedor3.agregarCertificacion(certificacionP2);
+
+        vendedor4.agregarCertificacion(certificacionP1);
+
+        const buenosAires = new Provincia(3200);
+        const capitalFederal = new Ciudad(buenosAires);
+        const centroDeDistribucion = new CentroDeDistribucion(
+          capitalFederal,
+          []
+        );
+
+        centroDeDistribucion.agregarVendedor(vendedor1);
+        centroDeDistribucion.agregarVendedor(vendedor2);
+        centroDeDistribucion.agregarVendedor(vendedor3);
+        centroDeDistribucion.agregarVendedor(vendedor4);
+
+        assert.equal(true, centroDeDistribucion.esRobusto());
+      });
+      it("El Centro de distribución NO es robusto si menos de 3 de sus venderores son firmes", () => {
+        const vendedor1 = new Vendedor();
+        const vendedor2 = new Vendedor();
+        const vendedor3 = new Vendedor();
+        const vendedor4 = new Vendedor();
+
+        const certificacionP1 = new Certificacion(true, 10);
+        const certificacionP2 = new Certificacion(true, 50);
+        const certificacionP3 = new Certificacion(true, 5);
+        const certificacionNP1 = new Certificacion(false, 1);
+        const certificacionNP2 = new Certificacion(false, 2);
+        const certificacionNP3 = new Certificacion(false, 2);
+
+        vendedor1.agregarCertificacion(certificacionP2);
+        
+        vendedor2.agregarCertificacion(certificacionP2);
+        vendedor2.agregarCertificacion(certificacionP3);
+        vendedor2.agregarCertificacion(certificacionNP1);
+        vendedor2.agregarCertificacion(certificacionNP2);
+        vendedor2.agregarCertificacion(certificacionNP3);
+
+        vendedor3.agregarCertificacion(certificacionP1);
+        
+        vendedor4.agregarCertificacion(certificacionP1);
+
+        const buenosAires = new Provincia(3200);
+        const capitalFederal = new Ciudad(buenosAires);
+        const centroDeDistribucion = new CentroDeDistribucion(
+          capitalFederal,
+          []
+        );
+
+        centroDeDistribucion.agregarVendedor(vendedor1);
+        centroDeDistribucion.agregarVendedor(vendedor2);
+        centroDeDistribucion.agregarVendedor(vendedor3);
+        centroDeDistribucion.agregarVendedor(vendedor4);
+
+        assert.equal(false, centroDeDistribucion.esRobusto());
       });
     });
   });

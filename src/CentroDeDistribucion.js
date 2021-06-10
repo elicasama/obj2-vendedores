@@ -19,4 +19,7 @@ module.exports = class CentroDeDistribucion {
     });
     return mejorvendedor;
   }
+  esRobusto(){
+       return this.vendedores.filter((vendedor)=> { return vendedor.esFirme()}).length >=3
+  }
 };
