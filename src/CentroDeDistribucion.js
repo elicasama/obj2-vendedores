@@ -1,4 +1,5 @@
 const errores = require("./errores");
+var _ = require("lodash");
 
 module.exports = class CentroDeDistribucion {
   constructor(ciudad, vendedores) {
@@ -25,9 +26,7 @@ module.exports = class CentroDeDistribucion {
 
   esRobusto() {
     return (
-      this.vendedores.filter((vendedor) => {
-        return vendedor.esFirme();
-      }).length >= 3
+      _.countBy(this.vendedores, (vendedor) => vendedor.esFirme()).true >= 3
     );
   }
 
@@ -39,8 +38,7 @@ module.exports = class CentroDeDistribucion {
 
   puedeCubir(ciudad) {
     return (
-      this.vendedores.filter((vendedor) => vendedor.puedeTrabajarEn(ciudad))
-        .length >= 1
+      _.countBy(this.vendedores, (vendedor) => vendedor.puedeTrabajarEn(ciudad)).true >= 1
     );
   }
 };
