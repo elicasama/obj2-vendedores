@@ -20,10 +20,23 @@ module.exports = class Vendedor {
   }
 
   certificacionesDeProducto() {
-    let totalPuntaje = 0;
-    return this.certificaciones.reduce((totalPuntaje, certificacion ) => {
-        return totalPuntaje + certificacion.puntaje;
-    })
+    const certificadosDeProducto = this.certificaciones.filter(
+      (certificacion) => certificacion.esDeProducto
+    );
+    return certificadosDeProducto.length;
+  }
 
-  };
+  otrasCertifiaciones() {
+    const otrosCertificados = this.certificaciones.filter(
+      (certificacion) => !certificacion.esDeProducto
+    );
+    return otrosCertificados.length;
+  }
+
+  puntajeCertifiaciones() {
+    return this.certificaciones.reduce((suma, certificacion) => {
+      const totalPuntaje = suma + certificacion.puntaje;
+      return totalPuntaje;
+    }, 0);
+  }
 };

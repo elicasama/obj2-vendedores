@@ -7,7 +7,7 @@ module.exports = class ComercioCorresponsal extends Vendedor {
     }
 
     puedeTrabajarEn(ciudad) {
-        return this.ciudades.conteins(ciudad);
+        return this.ciudades.includes(ciudad);
       }
 }
 
