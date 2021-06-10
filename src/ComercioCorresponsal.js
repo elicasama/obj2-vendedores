@@ -12,10 +12,10 @@ module.exports = class ComercioCorresponsal extends Vendedor {
   }
 
   esInfluyente() {
-    return this.ciudades.length >= 5 || this.cantidaProvincias() >= 3;
+    return this.ciudades.length >= 5 || this.cantidadDeProvincias() >= 3;
   }
 
-  cantidaProvincias() {
+  cantidadDeProvincias() {
     return _.uniq(
       this.ciudades.map((ciudad) => {
         return ciudad.provincia;

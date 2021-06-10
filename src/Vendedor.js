@@ -5,8 +5,8 @@ module.exports = class Vendedor {
     this.certificaciones = [];
   }
 
-  agregarCertificacion(certificación) {
-    this.certificaciones.push(certificación);
+  agregarCertificacion(certificacion) {
+    this.certificaciones.push(certificacion);
   }
 
   certificacionesDeProducto() {
