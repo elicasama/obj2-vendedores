@@ -1,4 +1,5 @@
 const Vendedor = require("./Vendedor");
+var _ = require("lodash");
 
 module.exports = class Viajante extends Vendedor {
   constructor(provinciasHabilitadas) {
@@ -15,9 +16,9 @@ module.exports = class Viajante extends Vendedor {
   }
 
   cantidadPersonas() {
-    return this.provinciasHabilitadas.reduce((sum, provincia) => {
-      const totalPersonas = sum + provincia.poblacion;
-      return totalPersonas;
-    }, 0);
+    return _.sumBy(
+      this.provinciasHabilitadas,
+      (provincia) => provincia.poblacion
+    );
   }
 };
