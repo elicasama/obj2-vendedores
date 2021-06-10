@@ -10,15 +10,15 @@ const CentroDeDistribucion = require("../src/CentroDeDistribucion");
 const errores = require("../src/errores");
 
 describe("Pruebas", () => {
-  describe(" Verificando a los vendedores según la ciudad en la que pueden trabajar", () => {
-    describe("Verificando dónde puede trabajar un VENDEDOR FIJO", () => {
-      it("Un vendedor fijo puede trabajar en Capital Federal si su ciudadOrigen = capitalFederal", () => {
+  describe(" Según la ciudad en la que quieren trabajar", () => {
+    describe("Vendedor Fijo", () => {
+      it("Puede trabajar en Capital Federal si su ciudadOrigen = capitalFederal", () => {
         const buenosAires = new Provincia(3200);
         const capitalFederal = new Ciudad(buenosAires);
         const vendedorFijo = new VendedorFijo(capitalFederal);
         assert.equal(true, vendedorFijo.puedeTrabajarEn(capitalFederal));
       });
-      it("Un vendedor fijo NO puede trabajar en Capital Federal si su ciudadOrigen = laPlata", () => {
+      it("No puede trabajar en Capital Federal si su ciudadOrigen = laPlata", () => {
         const buenosAires = new Provincia(3200);
         const capitalFederal = new Ciudad(buenosAires);
         const laPlata = new Ciudad(buenosAires);
@@ -26,8 +26,8 @@ describe("Pruebas", () => {
         assert.equal(false, vendedorFijo.puedeTrabajarEn(laPlata));
       });
     });
-    describe("Verificando dónde puede trabajar un VIAJANTE", () => {
-      it("Un viajante puede trabajar en una provincia en la que esté habilitado", () => {
+    describe("Viajante", () => {
+      it("Puede trabajar en Capital Federal si está habilitado Buenos Aires", () => {
         const buenosAires = new Provincia(3200);
         const santaFe = new Provincia(6800);
         const neuquen = new Provincia(2000);
@@ -39,7 +39,7 @@ describe("Pruebas", () => {
           viajante.puedeTrabajarEn(provinciasHabilitadas, capitalFederal)
         );
       });
-      it("Un viajante NO puede trabajar en Bariloche si no está habilitado en Neuquen ", () => {
+      it("No puede trabajar en Bariloche si no está habilitado en Neuquén ", () => {
         const buenosAires = new Provincia(3200);
         const santaFe = new Provincia(6800);
         const neuquen = new Provincia(2000);
@@ -52,8 +52,8 @@ describe("Pruebas", () => {
         );
       });
     });
-    describe("Verificando si un COMERCIO CORRESPONSAL tiene sucursales en determinadas ciudades", () => {
-      it("Un comercio corresponsal puede trabajar en la sucursal de Capital Federal si tiene esa ciudad", () => {
+    describe("COMERCIO CORRESPONSAL", () => {
+      it("Puede trabajar en la Capital Federal si tiene sucursales en esa ciudad", () => {
         const buenosAires = new Provincia(3200);
         const neuquen = new Provincia(2000);
         const capitalFederal = new Ciudad(buenosAires);
@@ -66,7 +66,7 @@ describe("Pruebas", () => {
           comercioCorresponsal.puedeTrabajarEn(capitalFederal)
         );
       });
-      it("Un comercio corresponsal NO puede trabajar en la sucursal de Capital Federal si no tiene esa ciudad", () => {
+      it("No puede trabajar en Capital Federal si no tiene sucursales esa ciudad", () => {
         const buenosAires = new Provincia(3200);
         const neuquen = new Provincia(2000);
         const capitalFederal = new Ciudad(buenosAires);
@@ -81,9 +81,9 @@ describe("Pruebas", () => {
       });
     });
   });
-  describe("Verificando cómo es un vendedor", () => {
-    describe("Verificando si un vendedor es VERSATIL", () => {
-      it("Un vendedor es versatil si tiene 3 o más certficaciones y al menos 1 es de productos y 1 no lo es", () => {
+  describe("Cómo es un vendedor", () => {
+    describe("Es versátil?", () => {
+      it("Sí: con 3 o más certficaciones y al menos 1 es de productos y 1 no lo es", () => {
         const vendedor = new Vendedor();
         const certificacionP1 = new Certificacion(true, 10); // Es de producto
         const certificacionP2 = new Certificacion(true, 50); // Es de producto
@@ -95,7 +95,7 @@ describe("Pruebas", () => {
         vendedor.agregarCertificacion(certificacionNP1);
         assert.equal(true, vendedor.esVersatil());
       });
-      it("Un vendedor NO versatil si tiene menos de 3 certficaciones aunque tengan  1 de productos y 1 que no lo es", () => {
+      it("No: con menos de 3 certficaciones aunque tengan 1 de productos y 1 que no lo es", () => {
         const vendedor = new Vendedor();
         const certificacionP1 = new Certificacion(true, 10); // Es de producto
         const certificacionNP1 = new Certificacion(false, 20); // No es de producto
@@ -103,7 +103,7 @@ describe("Pruebas", () => {
         vendedor.agregarCertificacion(certificacionNP1);
         assert.equal(false, vendedor.esVersatil());
       });
-      it("Un vendedor NO versatil si tiene 3 certficaciones y NO tiene aunque sea 1 de productos y 1 que no lo es", () => {
+      it("No: con 3 certficaciones o más si no tiene aunque sea 1 que sea de poductos", () => {
         const vendedor = new Vendedor();
         const certificacionNP1 = new Certificacion(false, 10); // No es de producto
         const certificacionNP2 = new Certificacion(false, 50); // No es de producto
@@ -115,7 +115,7 @@ describe("Pruebas", () => {
         vendedor.agregarCertificacion(certificacionNP4);
         assert.equal(false, vendedor.esVersatil());
       });
-      it("Un vendedor NO versatil si tiene 3 certficaciones y no tiene aunque sea 1 que no sea de productos", () => {
+      it("No: con tiene 3 certficaciones o más si no tiene aunque sea 1 que no sea de productos", () => {
         const vendedor = new Vendedor();
         const certificacionP1 = new Certificacion(true, 10); // Es de producto
         const certificacionP2 = new Certificacion(true, 50); // Es de producto
@@ -128,8 +128,8 @@ describe("Pruebas", () => {
         assert.equal(false, vendedor.esVersatil());
       });
     });
-    describe(" Verificando si un vendedor es FIRME", () => {
-      it("Un vendedor es Firme si tiene un puntaje de 30 o mayor en el total de sus certificaciones", () => {
+    describe("Es firme?", () => {
+      it("Sí: con un puntaje > = 30 en el total de sus certificaciones", () => {
         const vendedor = new Vendedor();
         const certificacionP1 = new Certificacion(true, 10);
         const certificacionP2 = new Certificacion(true, 50);
@@ -141,7 +141,7 @@ describe("Pruebas", () => {
         vendedor.agregarCertificacion(certificacionNP1);
         assert.equal(true, vendedor.esFirme());
       });
-      it("Un vendedor NO es Firme si tiene un puntaje de menor a 30en el total de sus certificaciones", () => {
+      it("No: con un puntaje <= 30 en el total de sus certificaciones", () => {
         const vendedor = new Vendedor();
         const certificacionP1 = new Certificacion(true, 1);
         const certificacionP2 = new Certificacion(true, 5);
@@ -155,15 +155,15 @@ describe("Pruebas", () => {
       });
     });
 
-    describe("Verificando vendedor es INFLUYENTE", () => {
-      describe(" Verificando si un VENDEDOR FIJO es influyente", () => {
-        it("Ningun Vendedor Fijo es influyente", () => {
+    describe("Es influyente?", () => {
+      describe("Vendedor fijo", () => {
+        it("Ningún Vendedor Fijo es influyente", () => {
           const vendedorFijo = new VendedorFijo();
           assert.equal(false, vendedorFijo.esInfluyente());
         });
       });
-      describe(" Verificando si un VIAJANTE es influyente", () => {
-        it("Un Viajante es influyente si la suma total de todas las provincias habilitadas da 10000000 (10Millones) de personas o más", () => {
+      describe("Viajante", () => {
+        it("Sí: con la suma total de todas las personas de las provincias habilitadas >= 10000000 (10Millones)", () => {
           const buenosAires = new Provincia(13200);
           const santaFe = new Provincia(600800);
           const neuquen = new Provincia(20000000);
@@ -171,7 +171,7 @@ describe("Pruebas", () => {
           const viajante = new Viajante(provinciasHabilitadas);
           assert.equal(true, viajante.esInfluyente());
         });
-        it("Un Viajante NO es influyente si la suma total de todas las persinas en las provincias habilitadas es menor a 10000000 (10Millones) de personas", () => {
+        it("No: con la suma total de todas las personas de las provincias habilitadas < 10000000 (10Millones)", () => {
           const buenosAires = new Provincia(132);
           const santaFe = new Provincia(600);
           const neuquen = new Provincia(200);
@@ -181,9 +181,9 @@ describe("Pruebas", () => {
         });
       });
 
-      describe(" Verificando si un COMERCIO CORRESPONSAL es influyente", () => {
-        describe("Un Comercio Corresponsal es Influyente si: Tiene surcursales en 5 Cuidades o 3 provincias con sucursales", () => {
-          it("Un Comercio Corresponsal es Influyente si: Tiene surcursales en 5 Cuidades", () => {
+      describe("Comercio corresponsal", () => {
+        describe("Si tiene sucursales en 5 cuidades o sucursales en 3 provincias", () => {
+          it("Sí: Tiene surcursales en 5 Cuidades", () => {
             const buenosAires = new Provincia(3200);
             const neuquen = new Provincia(2000);
             const capitalFederal = new Ciudad(buenosAires);
@@ -201,7 +201,7 @@ describe("Pruebas", () => {
             const comercioCorresponsal = new ComercioCorresponsal(ciudades);
             assert.equal(true, comercioCorresponsal.esInfluyente());
           });
-          it("Un Comercio Corresponsal es Influyente si: está en tres provincias (aunque no tenga 5 ciudades)", () => {
+          it("Sí: Está en tres provincias (aunque no tenga 5 ciudades)", () => {
             const buenosAires = new Provincia(3200);
             const neuquen = new Provincia(2000);
             const santaFe = new Provincia(3600);
@@ -212,7 +212,7 @@ describe("Pruebas", () => {
             const comercioCorresponsal = new ComercioCorresponsal(ciudades);
             assert.equal(true, comercioCorresponsal.esInfluyente());
           });
-          it("Un Comercio Corresponsal NO es Influyente si: No está en 5 ciudades ni en 3 provincias", () => {
+          it("No: No está en 5 ciudades ni en 3 provincias", () => {
             const buenosAires = new Provincia(3200);
             const neuquen = new Provincia(2000);
             const capitalFederal = new Ciudad(buenosAires);
@@ -226,9 +226,9 @@ describe("Pruebas", () => {
       });
     });
   });
-  describe("Realizando consultas", () => {
-    describe("En el CENTRO DE DISTRIBUCIÓN", () => {
-      it("El Se agrega un nuevo vendedor al centro de distribución", () => {
+  describe("Consultas / acciones varias", () => {
+    describe("Centro de distribución", () => {
+      it("Agregar nuevo vendedor", () => {
         const buenosAires = new Provincia(3200);
         const capitalFederal = new Ciudad(buenosAires);
         const centroDeDistribucion = new CentroDeDistribucion(
@@ -241,10 +241,9 @@ describe("Pruebas", () => {
 
         centroDeDistribucion.agregarVendedor(vendedor1);
 
-        // assert.equal("El vendedor ya existe!", centroDeDistribucion.agregarVendedor(vendedor1));
         assert.equal(1, centroDeDistribucion.vendedores.length);
       });
-      it("El intenta agregar un vendedor que ya existe --> Tiene que dar un error", () => {
+      it("Indicar que un vendedor ya existe y no agregarlo", () => {
         const buenosAires = new Provincia(3200);
         const capitalFederal = new Ciudad(buenosAires);
         const centroDeDistribucion = new CentroDeDistribucion(
@@ -262,7 +261,7 @@ describe("Pruebas", () => {
         }, errores.ElVendedorYaExisteError);
       });
 
-      it("El vendedor estrella es el que tiene mayor puntaje en certificaciones", () => {
+      it("Indicar el vendedor estrella (mayor puntaje en certificaciones)", () => {
         const vendedor1 = new Vendedor();
         const vendedor2 = new Vendedor();
         const vendedor3 = new Vendedor();
@@ -270,19 +269,20 @@ describe("Pruebas", () => {
         const certificacionP1 = new Certificacion(true, 1000);
         const certificacionP2 = new Certificacion(true, 50);
         const certificacionP3 = new Certificacion(true, 5);
+
         const certificacionNP1 = new Certificacion(false, 120);
         const certificacionNP2 = new Certificacion(false, 220);
         const certificacionNP3 = new Certificacion(false, 220);
 
-        vendedor1.agregarCertificacion(certificacionP1);
         vendedor1.agregarCertificacion(certificacionP2);
         vendedor1.agregarCertificacion(certificacionP3);
+        vendedor1.agregarCertificacion(certificacionNP1);
+        vendedor1.agregarCertificacion(certificacionNP2);
         vendedor1.agregarCertificacion(certificacionNP3);
 
+        vendedor2.agregarCertificacion(certificacionP1);
         vendedor2.agregarCertificacion(certificacionP2);
         vendedor2.agregarCertificacion(certificacionP3);
-        vendedor2.agregarCertificacion(certificacionNP1);
-        vendedor2.agregarCertificacion(certificacionNP2);
         vendedor2.agregarCertificacion(certificacionNP3);
 
         vendedor3.agregarCertificacion(certificacionP1);
@@ -295,14 +295,14 @@ describe("Pruebas", () => {
           []
         );
 
-        centroDeDistribucion.agregarVendedor(vendedor1);
-        centroDeDistribucion.agregarVendedor(vendedor2);
-        centroDeDistribucion.agregarVendedor(vendedor3);
+        centroDeDistribucion.agregarVendedor(vendedor1); // total certifaciones: 615
+        centroDeDistribucion.agregarVendedor(vendedor2); // total certificaciones: 1275
+        centroDeDistribucion.agregarVendedor(vendedor3); // total certificaciones: 1050
 
-        assert.equal(vendedor1, centroDeDistribucion.vendedorEstrella());
+        assert.equal(vendedor2, centroDeDistribucion.vendedorEstrella());
       });
-      describe("Verificar si el Centro de distribución es ROBUSTO", () => {
-        it("El Centro de distribución es robusto si 3 o más de sus venderores son firmes", () => {
+      describe("Es robusto?", () => {
+        it("Sí: con 3 o más venderores firmes", () => {
           const vendedor1 = new Vendedor();
           const vendedor2 = new Vendedor();
           const vendedor3 = new Vendedor();
@@ -311,6 +311,7 @@ describe("Pruebas", () => {
           const certificacionP1 = new Certificacion(true, 1000);
           const certificacionP2 = new Certificacion(true, 50);
           const certificacionP3 = new Certificacion(true, 5);
+
           const certificacionNP1 = new Certificacion(false, 120);
           const certificacionNP2 = new Certificacion(false, 220);
           const certificacionNP3 = new Certificacion(false, 220);
@@ -338,14 +339,15 @@ describe("Pruebas", () => {
             []
           );
 
-          centroDeDistribucion.agregarVendedor(vendedor1);
-          centroDeDistribucion.agregarVendedor(vendedor2);
-          centroDeDistribucion.agregarVendedor(vendedor3);
-          centroDeDistribucion.agregarVendedor(vendedor4);
+          centroDeDistribucion.agregarVendedor(vendedor1); // puntaje 1275 -> Firme
+          centroDeDistribucion.agregarVendedor(vendedor2); // puntaje 615 -> Firme
+          centroDeDistribucion.agregarVendedor(vendedor3); // puntaje 1050 -> Firme
+          centroDeDistribucion.agregarVendedor(vendedor4); // puntaje 1000 -> Firme
+         
 
           assert.equal(true, centroDeDistribucion.esRobusto());
         });
-        it("El Centro de distribución NO es robusto si menos de 3 de sus venderores son firmes", () => {
+        it("No: con menos de 3 venderores firmes", () => {
           const vendedor1 = new Vendedor();
           const vendedor2 = new Vendedor();
           const vendedor3 = new Vendedor();
@@ -377,10 +379,10 @@ describe("Pruebas", () => {
             []
           );
 
-          centroDeDistribucion.agregarVendedor(vendedor1);
-          centroDeDistribucion.agregarVendedor(vendedor2);
-          centroDeDistribucion.agregarVendedor(vendedor3);
-          centroDeDistribucion.agregarVendedor(vendedor4);
+          centroDeDistribucion.agregarVendedor(vendedor1); // puntaje 50 -> Firme
+          centroDeDistribucion.agregarVendedor(vendedor2); // puntaje 60 -> Firme
+          centroDeDistribucion.agregarVendedor(vendedor3); // puntaje 10
+          centroDeDistribucion.agregarVendedor(vendedor4); // puntaje 10
 
           assert.equal(false, centroDeDistribucion.esRobusto());
         });
@@ -404,10 +406,11 @@ describe("Pruebas", () => {
         vendedor2.agregarCertificacion(certificacionP2);
         vendedor2.agregarCertificacion(certificacionP3);
         vendedor2.agregarCertificacion(certificacionNP1);
-        vendedor2.agregarCertificacion(certificacionNP2);
-        vendedor2.agregarCertificacion(certificacionNP3);
+        vendedor2.agregarCertificacion(certificacionNP2); // lo hace genérico
+        vendedor2.agregarCertificacion(certificacionNP3); // lo hace genérico
 
         vendedor3.agregarCertificacion(certificacionP1);
+        vendedor3.agregarCertificacion(certificacionNP3); // lo hace genérico
 
         vendedor4.agregarCertificacion(certificacionP1);
 
@@ -424,12 +427,12 @@ describe("Pruebas", () => {
         centroDeDistribucion.agregarVendedor(vendedor4);
 
         assert.deepEqual(
-          [vendedor2],
+          [vendedor2, vendedor3],
           centroDeDistribucion.vendedoresGenericos()
         );
       });
-      describe("Se verifica la cobertura de una Ciudad", () => {
-        it("Se verifica si se puede cubrir la ciudad de Berazategui - Un vendedor tiene que poder vender ahí", () => {
+      describe("Cobertura de una Ciudad", () => {
+        it("Se puede cubrir la ciudad de Berazategui si un vendedor puede vender ahí", () => {
           const buenosAires = new Provincia(3200);
           const capitalFederal = new Ciudad(buenosAires);
           const centroDeDistribucion = new CentroDeDistribucion(
@@ -442,7 +445,7 @@ describe("Pruebas", () => {
 
           assert.equal(true, centroDeDistribucion.puedeCubir(berazategui));
         });
-        it("Se verifica que NO se puede cubrir la ciudad de La Plata - porque no tiene un vendedor con esa ciudad", () => {
+        it("No se puede cubrir la ciudad de La Plata si ningún vendedor puede vender ahí", () => {
           const buenosAires = new Provincia(3200);
           const capitalFederal = new Ciudad(buenosAires);
           const laPlata = new Ciudad(buenosAires);
