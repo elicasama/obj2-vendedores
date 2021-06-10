@@ -7,7 +7,7 @@ module.exports = class Vendedor {
     return (
       this.certificaciones.length >= 3 &&
       this.certificacionesDeProducto() >= 1 &&
-      this.otrasCertifiaciones() >= 1
+      this.otrasCertificaciones() >= 1
     );
   };
 
@@ -16,7 +16,7 @@ module.exports = class Vendedor {
   }
 
   esFirme() {
-    return this.puntajeCertifiaciones() >= 30;
+    return this.puntajeCertificaciones() >= 30;
   }
 
   certificacionesDeProducto() {
@@ -26,17 +26,23 @@ module.exports = class Vendedor {
     return certificadosDeProducto.length;
   }
 
-  otrasCertifiaciones() {
+  otrasCertificaciones() {
     const otrosCertificados = this.certificaciones.filter(
       (certificacion) => !certificacion.esDeProducto
     );
     return otrosCertificados.length;
   }
 
-  puntajeCertifiaciones() {
+  puntajeCertificaciones() {
     return this.certificaciones.reduce((suma, certificacion) => {
       const totalPuntaje = suma + certificacion.puntaje;
       return totalPuntaje;
     }, 0);
   }
+
+  esUnVendedorGenerico() {
+    return this.otrasCertificaciones() >= 1;
+  }
+
+
 };

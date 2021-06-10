@@ -7,6 +7,7 @@ const VendedorFijo = require("../src/VendedorFijo");
 const Viajante = require("../src/Viajante");
 const ComercioCorresponsal = require("../src/ComercioCorresponsal");
 const CentroDeDistribucion = require("../src/CentroDeDistribucion");
+const errores = require("../src/errores");
 
 describe("Pruebas", () => {
   describe(" Verificando a los vendedores según la ciudad en la que pueden trabajar", () => {
@@ -17,7 +18,7 @@ describe("Pruebas", () => {
         const vendedorFijo = new VendedorFijo(capitalFederal);
         assert.equal(true, vendedorFijo.puedeTrabajarEn(capitalFederal));
       });
-      it("Un vendedorFijo NO puede trabajar en Capital Federalsi su ciudadOrigen = laPlata", () => {
+      it("Un vendedorFijo NO puede trabajar en Capital Federal si su ciudadOrigen = laPlata", () => {
         const buenosAires = new Provincia(3200);
         const capitalFederal = new Ciudad(buenosAires);
         const laPlata = new Ciudad(buenosAires);
@@ -51,7 +52,7 @@ describe("Pruebas", () => {
         );
       });
     });
-    describe("Un ComercioCorresponsal tiene sucursales en distintas ciudades", () => {
+    describe("Verificando si un ComercioCorresponsal tiene sucursales en determinadas ciudades", () => {
       it("Un ComercioCorresponsal puede trabajar en la sucursal de Capital Federal si tiene esa ciudad", () => {
         const buenosAires = new Provincia(3200);
         const neuquen = new Provincia(2000);
@@ -80,7 +81,7 @@ describe("Pruebas", () => {
       });
     });
   });
-
+  describe("Verificando cómo es un vendedor", () => {
   describe(" Verificando si un vendedor es Versatil", () => {
     it("Un vendedor es versatil si tiene 3 o más certficaciones y al menos 1 es de productos y 1 no lo es", () => {
       const vendedor = new Vendedor();
@@ -154,7 +155,7 @@ describe("Pruebas", () => {
     });
   });
 
-  describe(" Verificando Influencia", () => {
+  describe(" Verificando la Influencia de los vendedores", () => {
     describe(" Verificando si un vendedor Fijo es influyente", () => {
       it("Ningun Vendedor Fijo es influyente", () => {
         const vendedorFijo = new VendedorFijo();
@@ -179,6 +180,7 @@ describe("Pruebas", () => {
         assert.equal(false, viajante.esInfluyente());
       });
     });
+  
     describe(" Verificando si un Comercio Corresponsal es influyente", () => {
       describe("Un Comercio Corresponsal es Influyente si: Tiene surcursales en 5 Cuidades o 3 provincias con sucursales", () => {
         it("Un Comercio Corresponsal es Influyente si: Tiene surcursales en 5 Cuidades", () => {
@@ -223,6 +225,7 @@ describe("Pruebas", () => {
       });
     });
   });
+});
   describe("Realizando consultas", () => {
     describe("En el Centro de distribución", () => {
       it("El Se agrega un nuevo vendedor al centro de distribución", () => {
@@ -254,10 +257,9 @@ describe("Pruebas", () => {
 
         centroDeDistribucion.agregarVendedor(vendedor1);
 
-        assert.equal(
-          "El vendedor ya existe!",
-          centroDeDistribucion.agregarVendedor(vendedor1)
-        );
+        assert.throws(() => {
+          centroDeDistribucion.agregarVendedor(vendedor1);
+        }, errores.ElVendedorYaExisteError);
       });
 
       it("El vendedor estrella es el que tiene mayor puntaje en certificaciones", () => {
@@ -356,7 +358,7 @@ describe("Pruebas", () => {
         const certificacionNP3 = new Certificacion(false, 2);
 
         vendedor1.agregarCertificacion(certificacionP2);
-        
+
         vendedor2.agregarCertificacion(certificacionP2);
         vendedor2.agregarCertificacion(certificacionP3);
         vendedor2.agregarCertificacion(certificacionNP1);
@@ -364,7 +366,7 @@ describe("Pruebas", () => {
         vendedor2.agregarCertificacion(certificacionNP3);
 
         vendedor3.agregarCertificacion(certificacionP1);
-        
+
         vendedor4.agregarCertificacion(certificacionP1);
 
         const buenosAires = new Provincia(3200);
@@ -380,6 +382,76 @@ describe("Pruebas", () => {
         centroDeDistribucion.agregarVendedor(vendedor4);
 
         assert.equal(false, centroDeDistribucion.esRobusto());
+      });
+
+      it("Listar la colección de vendedores genéricos", () => {
+        const vendedor1 = new Vendedor();
+        const vendedor2 = new Vendedor();
+        const vendedor3 = new Vendedor();
+        const vendedor4 = new Vendedor();
+
+        const certificacionP1 = new Certificacion(true, 10);
+        const certificacionP2 = new Certificacion(true, 50);
+        const certificacionP3 = new Certificacion(true, 5);
+        const certificacionNP1 = new Certificacion(false, 1);
+        const certificacionNP2 = new Certificacion(false, 2);
+        const certificacionNP3 = new Certificacion(false, 2);
+
+        vendedor1.agregarCertificacion(certificacionP2);
+
+        vendedor2.agregarCertificacion(certificacionP2);
+        vendedor2.agregarCertificacion(certificacionP3);
+        vendedor2.agregarCertificacion(certificacionNP1);
+        vendedor2.agregarCertificacion(certificacionNP2);
+        vendedor2.agregarCertificacion(certificacionNP3);
+
+        vendedor3.agregarCertificacion(certificacionP1);
+
+        vendedor4.agregarCertificacion(certificacionP1);
+
+        const buenosAires = new Provincia(3200);
+        const capitalFederal = new Ciudad(buenosAires);
+        const centroDeDistribucion = new CentroDeDistribucion(
+          capitalFederal,
+          []
+        );
+
+        centroDeDistribucion.agregarVendedor(vendedor1);
+        centroDeDistribucion.agregarVendedor(vendedor2);
+        centroDeDistribucion.agregarVendedor(vendedor3);
+        centroDeDistribucion.agregarVendedor(vendedor4);
+
+        assert.deepEqual(
+          [vendedor2],
+          centroDeDistribucion.vendedoresGenericos()
+        );
+      });
+      it("Se verifica si se puede cubrir la ciudad de Berazategui - Un vendedor tiene que poder vender ahí", () => {
+        const buenosAires = new Provincia(3200);
+        const capitalFederal = new Ciudad(buenosAires);
+        const centroDeDistribucion = new CentroDeDistribucion(
+          capitalFederal,
+          []
+        );
+        const berazategui = new Ciudad(buenosAires);
+        const vendedor1 = new VendedorFijo(berazategui);
+        centroDeDistribucion.agregarVendedor(vendedor1);
+
+        assert.equal(true, centroDeDistribucion.puedeCubir(berazategui));
+      });
+      it("Se verifica que NO se puede cubrir la ciudad de La Plata - porque no tiene un vendedor con esa ciudad", () => {
+        const buenosAires = new Provincia(3200);
+        const capitalFederal = new Ciudad(buenosAires);
+        const laPlata = new Ciudad(buenosAires);
+        const centroDeDistribucion = new CentroDeDistribucion(
+          capitalFederal,
+          []
+        );
+        const berazategui = new Ciudad(buenosAires);
+        const vendedor1 = new VendedorFijo(berazategui);
+        centroDeDistribucion.agregarVendedor(vendedor1);
+
+        assert.equal(false, centroDeDistribucion.puedeCubir(laPlata));
       });
     });
   });
