@@ -53,7 +53,7 @@ describe("Pruebas", () => {
       });
     });
     describe("COMERCIO CORRESPONSAL", () => {
-      it("Puede trabajar en la Capital Federal si tiene sucursales en esa ciudad", () => {
+      it("Puede trabajar en Capital Federal si tiene sucursales en esa ciudad", () => {
         const buenosAires = new Provincia(3200);
         const neuquen = new Provincia(2000);
         const capitalFederal = new Ciudad(buenosAires);
@@ -115,7 +115,7 @@ describe("Pruebas", () => {
         vendedor.agregarCertificacion(certificacionNP4);
         assert.equal(false, vendedor.esVersatil());
       });
-      it("No: con tiene 3 certficaciones o más si no tiene aunque sea 1 que no sea de productos", () => {
+      it("No: con 3 certficaciones o más si no tiene aunque sea 1 que no sea de productos", () => {
         const vendedor = new Vendedor();
         const certificacionP1 = new Certificacion(true, 10); // Es de producto
         const certificacionP2 = new Certificacion(true, 50); // Es de producto
@@ -296,7 +296,7 @@ describe("Pruebas", () => {
         );
 
         centroDeDistribucion.agregarVendedor(vendedor1); // total certifaciones: 615
-        centroDeDistribucion.agregarVendedor(vendedor2); // total certificaciones: 1275
+        centroDeDistribucion.agregarVendedor(vendedor2); // total certificaciones: 1275 << - Es el vendedor estrella
         centroDeDistribucion.agregarVendedor(vendedor3); // total certificaciones: 1050
 
         assert.equal(vendedor2, centroDeDistribucion.vendedorEstrella());

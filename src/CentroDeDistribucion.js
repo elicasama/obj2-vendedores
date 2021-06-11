@@ -16,14 +16,13 @@ module.exports = class CentroDeDistribucion {
   }
 
   vendedorEstrella() {
-    return this.vendedores.reduce(function (anterior, vendedor) {
-      return anterior.puntajeCertificaciones() >
-        vendedor.puntajeCertificaciones()
-        ? anterior
-        : vendedor;
-    });
+    return this.vendedores.reduce((vendedor, vendedorActual) =>
+      vendedor.puntajeCertificaciones() >
+      vendedorActual.puntajeCertificaciones()
+        ? vendedor
+        : vendedorActual
+    );
   }
-
   esRobusto() {
     return (
       _.countBy(this.vendedores, (vendedor) => vendedor.esFirme()).true >= 3
@@ -31,14 +30,13 @@ module.exports = class CentroDeDistribucion {
   }
 
   vendedoresGenericos() {
-    return this.vendedores.filter((vendedor) => {
-      return vendedor.esGenerico();
-    });
+    return this.vendedores.filter((vendedor) => vendedor.esGenerico());
   }
 
   puedeCubir(ciudad) {
     return (
-      _.countBy(this.vendedores, (vendedor) => vendedor.puedeTrabajarEn(ciudad)).true >= 1
+      _.countBy(this.vendedores, (vendedor) => vendedor.puedeTrabajarEn(ciudad))
+        .true >= 1
     );
   }
 };
