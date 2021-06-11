@@ -16,10 +16,6 @@ module.exports = class ComercioCorresponsal extends Vendedor {
   }
 
   cantidadDeProvincias() {
-    return _.uniq(
-      this.ciudades.map((ciudad) => {
-        return ciudad.provincia;
-      })
-    ).length;
+    return _.uniq(this.ciudades.map((ciudad) => ciudad.provincia)).length;
   }
 };
