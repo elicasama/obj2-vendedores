@@ -343,7 +343,6 @@ describe("Pruebas", () => {
           centroDeDistribucion.agregarVendedor(vendedor2); // puntaje 615 -> Firme
           centroDeDistribucion.agregarVendedor(vendedor3); // puntaje 1050 -> Firme
           centroDeDistribucion.agregarVendedor(vendedor4); // puntaje 1000 -> Firme
-         
 
           assert.equal(true, centroDeDistribucion.esRobusto());
         });

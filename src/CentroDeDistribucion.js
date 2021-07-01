@@ -16,6 +16,8 @@ module.exports = class CentroDeDistribucion {
   }
 
   vendedorEstrella() {
+    // return _.maxBy(this.vendedores, (it) => it.puntajeCertificaciones());
+
     return this.vendedores.reduce((vendedor, vendedorActual) =>
       vendedor.puntajeCertificaciones() >
       vendedorActual.puntajeCertificaciones()
